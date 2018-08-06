@@ -64,10 +64,10 @@ def sendFile(f, connect, port):
 # Return true if command is valid, false otherwise
 def valCommand(clientCmd, connect):
 
-    if clientCmd == "-1":
+    if clientCmd == "-ls":
         return
     
-    elif clientCmd == "-g":
+    elif clientCmd == "-dl":
         return
 
     print("{} is an invalid command. Sending error message to {}: {}.".format(command, cHost, cPort))
@@ -105,11 +105,11 @@ if __name__ == "__main__":
     valCommand(command, conn)
         
     # Command to send contents of directory to client.
-    if command == "-1":
+    if command == "-ls":
         displayDir(conn)
 
     # Command to send requested file to client.       
-    elif command == "-g":
+    elif command == "-dl":
         # File requested by client
         file = paramsLst[3]
         sendFile(file, conn, cPort)
