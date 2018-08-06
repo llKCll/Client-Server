@@ -20,4 +20,4 @@ Note: Commands "-ls" or "-dl" must be used.
 Commands
 
 -ls: Display contents of the server.
--dl: Request file to be copied.
+<br>-dl: Request file to be copied.
