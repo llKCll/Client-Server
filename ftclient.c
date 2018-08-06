@@ -74,20 +74,20 @@ int main(int argc, char *argv[])
     
     // Validate number of args.
     if (argc != 5 && argc != 4) {
-        fprintf(stderr, "3 Parameters if -1 command is used: <HOSTNAME> <PORT> <COMMAND> or\n");
-        fprintf(stderr, "4 Parameters if -g command is used: <HOSTNAME> <PORT> <COMMAND> <FILE>\n");
+        fprintf(stderr, "3 Parameters if -ls command is used: <HOSTNAME> <PORT> <COMMAND> or\n");
+        fprintf(stderr, "4 Parameters if -dl command is used: <HOSTNAME> <PORT> <COMMAND> <FILE>\n");
         exit(1);
     }
     
-    // Ensure 3 parameters if -1 used.
-    else if (argc == 5 && strcmp(argv[3], "-1") == 0) {
-        fprintf(stderr, "3 Parameters if -1 command is used: <HOSTNAME> <PORT> <COMMAND>\n");
+    // Ensure 3 parameters if -ls used.
+    else if (argc == 5 && strcmp(argv[3], "-ls") == 0) {
+        fprintf(stderr, "3 Parameters if -ls command is used: <HOSTNAME> <PORT> <COMMAND>\n");
         exit(1);
     }
     
-    // Ensure 4 parameters if -g used.
-    else if (argc == 4 && strcmp(argv[3], "-g") == 0) {
-        fprintf(stderr, "4 Parameters if -g command is used: <HOSTNAME> <PORT> <COMMAND> <FILE>\n");
+    // Ensure 4 parameters if -dl used.
+    else if (argc == 4 && strcmp(argv[3], "-dl") == 0) {
+        fprintf(stderr, "4 Parameters if -dl command is used: <HOSTNAME> <PORT> <COMMAND> <FILE>\n");
         exit(1);
     }
     
@@ -179,7 +179,7 @@ int main(int argc, char *argv[])
    
     // Invalid command was sent to the server. Print server message, close the socket, and exit.
     if (strncmp("INVALID COMMAND", buf, 15) == 0) {
-        printf("%s: %s says...\n%s\n", argv[1], argv[2], buf);
+        printf("%s: %s says... %s.\n", argv[1], argv[2], buf);
         close(sockfd);
         exit(1);
     }
@@ -187,13 +187,13 @@ int main(int argc, char *argv[])
     // Check which command was chosen.
 
     // Print directory command.
-    if (strncmp(argv[3], "-1", 2) == 0) {
+    if (strcmp(argv[3], "-ls") == 0) {
         printf("Receiving directory structure from %s: %s.\n", argv[1], argv[2]);
         printf("%s\n", buf);
     }
 
     // Copy file from the server command.
-    if (strncmp(argv[3], "-g", 2) == 0) {
+    if (strcmp(argv[3], "-dl") == 0) {
         
         // Open the file to see if it exists.
         FILE *f = fopen(argv[4], "r");
@@ -212,7 +212,7 @@ int main(int argc, char *argv[])
 
             // Build content to write to file.
             if (strncmp(buf, "FILE NOT FOUND", 14) == 0) {
-                printf("%s: %s says...\n%s\n", argv[1], argv[2], buf);
+                printf("%s: %s says... %s.\n", argv[1], argv[2], buf);
                 close(sockfd);
                 exit(1);
             }
